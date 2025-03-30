@@ -1,0 +1,211 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { format } from 'date-fns';
+
+// Get all unique tags
+const posts = await getCollection('blog');
+const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout>
+  <div class="blog-index">
+    <h1>Blog Posts</h1>
+    <div class="filters">
+      <input 
+        type="text" 
+        id="search" 
+        placeholder="Search posts..." 
+        class="search-input"
+      />
+      <div class="tags-filter">
+        {allTags.map(tag => (
+          <button class="tag-filter" data-tag={tag}>
+            {tag}
+          </button>
+        ))}
+      </div>
+    </div>
+    <div class="posts-grid">
+      {posts.map(post => (
+        <a href={`/blog/${post.slug}`} class="post-card" data-tags={post.data.tags.join(' ')}>
+          <article>
+            <p class="post-date">{format(post.data.pubDate, 'MMMM d, yyyy')}</p>
+            <h2>{post.data.title}</h2>
+            <p class="description">{post.data.description}</p>
+            <div class="tags">
+              {post.data.tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </article>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('search') as HTMLInputElement;
+  const tagFilters = document.querySelectorAll('.tag-filter');
+  const posts = document.querySelectorAll('.post-card');
+  
+  let activeTag: string | null = null;
+  
+  function filterPosts() {
+    const searchTerm = searchInput.value.toLowerCase();
+    
+    posts.forEach(post => {
+      const title = post.querySelector('h2')?.textContent?.toLowerCase() || '';
+      const description = post.querySelector('.description')?.textContent?.toLowerCase() || '';
+      const tags = (post as HTMLElement).dataset.tags?.split(' ') || [];
+      
+      const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+      const matchesTag = !activeTag || tags.includes(activeTag);
+      
+      post.classList.toggle('hidden', !matchesSearch || !matchesTag);
+    });
+  }
+  
+  searchInput.addEventListener('input', filterPosts);
+  
+  tagFilters.forEach(button => {
+    button.addEventListener('click', () => {
+      const tag = (button as HTMLElement).dataset.tag as string;
+      
+      if (activeTag === tag) {
+        activeTag = null;
+        button.classList.remove('active');
+      } else {
+        tagFilters.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        activeTag = tag;
+      }
+      
+      filterPosts();
+    });
+  });
+</script>
+
+<style>
+  .blog-index {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+  }
+
+  .filters {
+    margin-bottom: 2rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: var(--card-bg, var(--bg-color));
+    color: var(--text-color);
+    outline: none;
+  }
+
+  .search-input:focus {
+    border-color: var(--text-color);
+  }
+
+  .tags-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag-filter {
+    background: var(--card-bg, var(--bg-color));
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tag-filter.active {
+    background: var(--hover-bg);
+    border-color: var(--text-color);
+  }
+
+  .posts-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .post-card {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  article {
+    background: var(--card-bg, var(--bg-color));
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .post-card:hover article {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px var(--shadow-color, rgba(0, 0, 0, 0.1));
+  }
+
+  .post-date {
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+    color: var(--text-color);
+  }
+
+  .description {
+    color: var(--text-color);
+    opacity: 0.9;
+    margin: 0.5rem 0;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    background: var(--hover-bg);
+    color: var(--text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
