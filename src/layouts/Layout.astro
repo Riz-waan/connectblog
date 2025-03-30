@@ -1,71 +1,91 @@
-
 ---
-import Navigation from '../components/Navigation.astro';
+import Navigation from "../components/Navigation.astro";
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<meta name="generator" content={Astro.generator} />
-		<script is:inline>
-			const theme = localStorage.getItem('theme') ?? 'light';
-			document.documentElement.classList.add(theme);
-		</script>
-		<title>Rizwaan Abdulkadir | Connecting the Dots</title>
-		<meta name="description" content="Exploring connections between Life Sciences, Engineering, and Politics">
-	</head>
-	<body>
-		<Navigation />
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      const theme = localStorage.getItem("theme") ?? "light";
+      document.documentElement.classList.add(theme);
+    </script>
+    <title>Rizwaan Abdulkadir | Connecting the Dots</title>
+    <meta
+      name="description"
+      content="Exploring connections between Life Sciences, Engineering, and Politics"
+    />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3CR2MRWJQ"
+    ></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-Y3CR2MRWJQ");
+    </script></head
+  >
+  <!-- Google tag (gtag.js) -->
+
+  <body>
+    <Navigation />
+    <slot />
+  </body>
 </html>
 
 <style>
-	:root {
-		--text-color: #2c3e50;
-		--bg-color: #ffffff;
-		--nav-bg: rgba(255, 255, 255, 0.8);
-		--border-color: #e2e8f0;
-		--hover-bg: #f1f5f9;
-	}
+  :root {
+    --text-color: #2c3e50;
+    --bg-color: #ffffff;
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --border-color: #e2e8f0;
+    --hover-bg: #f1f5f9;
+  }
 
-	:root.dark {
-		--text-color: #e2e8f0;
-		--bg-color: #0f172a;
-		--nav-bg: rgba(15, 23, 42, 0.9);
-		--border-color: #2d3748;
-		--hover-bg: #2d374855;
-		--card-bg: #1e293b;
-		--shadow-color: rgba(0, 0, 0, 0.3);
-	}
+  :root.dark {
+    --text-color: #e2e8f0;
+    --bg-color: #0f172a;
+    --nav-bg: rgba(15, 23, 42, 0.9);
+    --border-color: #2d3748;
+    --hover-bg: #2d374855;
+    --card-bg: #1e293b;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+  }
 
-	html,
-	body {
-		margin: 0;
-		font-family: 'Inter', sans-serif;
-		line-height: 1.6;
-		color: var(--text-color);
-		background-color: var(--bg-color);
-		transition: background-color 0.3s, color 0.3s;
-	}
+  html,
+  body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
 
-	/* Override default link styles */
-	:root a:any-link {
-		color: #4338ca;
-		text-decoration: none;
-	}
+  /* Override default link styles */
+  :root a:any-link {
+    color: #4338ca;
+    text-decoration: none;
+  }
 
-	:root.dark a:any-link {
-		color: #818cf8;
-	}
+  :root.dark a:any-link {
+    color: #818cf8;
+  }
 
-	/* Preserve white text in hero section */
-	:root .hero a:any-link {
-		color: white;
-	}
+  /* Preserve white text in hero section */
+  :root .hero a:any-link {
+    color: white;
+  }
+</style>
