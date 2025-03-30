@@ -1,31 +1,26 @@
 ---
 // src/components/SEO.astro
 const {
-  title = "Rizwaan Abdulkadir | Connecting the Dots",
-  description = "Exploring connections between Life Sciences, Engineering, and Politics",
+  title,
+  description,
   pubDate,
-  image = "https://media.licdn.com/dms/image/v2/D5603AQHPIZz7AGjsRg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1641786361062?e=1749081600&v=beta&t=NQUgNG2GtzZNQL6vI6_4-y3PPeEyiJ7MUjdGYyx7wD8",
-  url = "https://rizwaan.me"
+  image,
+  url
 } = Astro.props;
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-
-<!-- Open Graph -->
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image} />
 <meta property="og:type" content="article" />
 <meta property="og:url" content={url} />
-
-<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
 
-<!-- JSON-LD Structured Data -->
 {pubDate && (
   <script type="application/ld+json">
     {JSON.stringify({
@@ -37,6 +32,11 @@ const {
       author: {
         "@type": "Person",
         name: "Rizwaan Abdulkadir"
+      },
+      image: image,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": url
       }
     })}
   </script>

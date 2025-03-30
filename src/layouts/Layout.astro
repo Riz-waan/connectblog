@@ -31,7 +31,8 @@ const { title, description, pubDate, image } = Astro.props;
       title={title}
       description={description}
       pubDate={pubDate}
-      image={image}
+      image={image ??
+        "https://media.licdn.com/dms/image/v2/D5603AQHPIZz7AGjsRg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1641786361062?e=1749081600&v=beta&t=NQUgNG2GtzZNQL6vI6_4-y3PPeEyiJ7MUjdGYyx7wD8"}
       url={`https://rizwaan.me${Astro.url.pathname}`}
     />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3CR2MRWJQ"

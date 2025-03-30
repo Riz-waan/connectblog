@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import { format } from 'date-fns';
-import { getRelatedPosts } from '../../utils/posts';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { format } from "date-fns";
+import { getRelatedPosts } from "../../utils/posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post, relatedPosts: getRelatedPosts(post, posts) },
   }));
@@ -16,46 +16,50 @@ const { post, relatedPosts } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Layout>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+>
   <article class="blog-post">
     <header>
-      <p class="post-date">{format(post.data.pubDate, 'MMMM d, yyyy')}</p>
+      <p class="post-date">{format(post.data.pubDate, "MMMM d, yyyy")}</p>
       <h1>{post.data.title}</h1>
       <p class="description">{post.data.description}</p>
       <div class="tags">
-        {post.data.tags.map(tag => (
-          <span class="tag">{tag}</span>
-        ))}
+        {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
       </div>
     </header>
-    
+
     <div class="content">
       <Content />
     </div>
-    
-    {relatedPosts.length > 0 && (
-      <aside class="related-posts" style="padding-bottom: 50px;">
-        <h2>Related Posts</h2>
-        <div class="related-posts-grid">
-          {relatedPosts.map(relatedPost => (
-            <a href={`/blog/${relatedPost.slug}`} class="related-post-card">
-              <article>
-                <p class="post-date">
-                  {format(relatedPost.data.pubDate, 'MMMM d, yyyy')}
-                </p>
-                <h3>{relatedPost.data.title}</h3>
-                <p class="description">{relatedPost.data.description}</p>
-                <div class="tags">
-                  {relatedPost.data.tags.map(tag => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-              </article>
-            </a>
-          ))}
-        </div>
-      </aside>
-    )}
+
+    {
+      relatedPosts.length > 0 && (
+        <aside class="related-posts" style="padding-bottom: 50px;">
+          <h2>Related Posts</h2>
+          <div class="related-posts-grid">
+            {relatedPosts.map((relatedPost) => (
+              <a href={`/blog/${relatedPost.slug}`} class="related-post-card">
+                <article>
+                  <p class="post-date">
+                    {format(relatedPost.data.pubDate, "MMMM d, yyyy")}
+                  </p>
+                  <h3>{relatedPost.data.title}</h3>
+                  <p class="description">{relatedPost.data.description}</p>
+                  <div class="tags">
+                    {relatedPost.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                </article>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )
+    }
   </article>
 </Layout>
 
@@ -172,11 +176,11 @@ const { Content } = await post.render();
   }
 
   .content :global(sup a::before) {
-    content: '[';
+    content: "[";
   }
 
   .content :global(sup a::after) {
-    content: ']';
+    content: "]";
   }
 
   .related-posts {
@@ -208,7 +212,9 @@ const { Content } = await post.render();
     padding: 1.25rem;
     border-radius: 8px;
     height: 100%;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
   }
 
   .related-post-card:hover article {
@@ -233,7 +239,7 @@ const { Content } = await post.render();
     h1 {
       font-size: 2rem;
     }
-    
+
     .related-posts-grid {
       grid-template-columns: 1fr;
     }
