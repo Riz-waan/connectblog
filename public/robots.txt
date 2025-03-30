@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://rizwaan.me/sitemap-index.xml

@@ -9,13 +9,14 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  site: 'https://rizwaan.me',
   integrations: [mdx(), sitemap()],
   markdown: {
     shikiConfig: {
       theme: 'github-light'
     },
     remarkPlugins: [
-      [remarkGfm, { 
+      [remarkGfm, {
         footnotes: {
           clobberPrefix: 'user-content-',
           backLabel: () => 'Back to content',
